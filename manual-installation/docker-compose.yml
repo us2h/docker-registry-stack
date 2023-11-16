@@ -1,0 +1,38 @@
+version: '3'
+services:
+  registry:
+    image: registry:2
+    env_file:
+      - ./env_file
+    environment:
+      REGISTRY_STORAGE: s3
+      REGISTRY_REDIS_ADDR: redis:6379
+      REGISTRY_CACHE_BLOBDESCRIPTOR: redis
+    restart: unless-stopped
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    env_file:
+      - ./env_file
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./data/caddy/start-caddy.sh:/start-caddy.sh
+      - caddy_data:/data
+      - caddy_config:/config
+    command: sh /start-caddy.sh
+    restart: always
+    depends_on:
+      - registry
+
+volumes:
+  caddy_data:
+  caddy_config:
