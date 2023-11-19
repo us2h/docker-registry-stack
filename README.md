@@ -68,4 +68,3 @@ Example:
 ```bash
 docker pull registry.example.com/mydockerimage:latest
 ```
-
