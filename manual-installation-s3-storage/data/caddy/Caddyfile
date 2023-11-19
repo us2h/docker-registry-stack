@@ -1,0 +1,12 @@
+{$REGISTRY_DOMAIN} {
+    reverse_proxy registry:5000 {
+        header_up Host {http.reverse_proxy.upstream.hostport}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    basicauth /* {
+        {$REGISTRY_BASIC_AUTH_USERNAME} {$REGISTRY_BASIC_AUTH_HASH}
+    }
+}

@@ -1,0 +1,6 @@
+# Registry configuration
+REGISTRY_DOMAIN=registry.example.com
+
+# Auth configuration
+REGISTRY_BASIC_AUTH_USERNAME=user
+REGISTRY_BASIC_AUTH_PASSWORD=password
